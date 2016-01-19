@@ -8,13 +8,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class LembreteActivity extends AppCompatActivity {
-
+private ListView fListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lembrete);
+        fListView = (ListView) findViewById(R.id.lembrete_listView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this, R.layout.lembrete_linha, R.id.linha_texto,
+                new String[]{"primeira linha","segunda linha", "terceira linha", "quarta linha"});
+
+        fListView.setAdapter(arrayAdapter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
