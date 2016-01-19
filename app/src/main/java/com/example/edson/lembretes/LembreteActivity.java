@@ -20,7 +20,7 @@ private ListView fListView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lembrete);
         fListView = (ListView) findViewById(R.id.lembrete_listView);
-        //Implementacao do controle no modelo mvc
+        //Implementacao do controle no modelo mvc - 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this, R.layout.lembrete_linha, R.id.linha_texto,
                 new String[]{"primeira linha","segunda linha", "terceira linha", "quarta linha",
