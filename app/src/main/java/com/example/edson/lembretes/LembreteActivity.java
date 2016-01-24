@@ -24,7 +24,7 @@ private ListView fListView;
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this, R.layout.lembrete_linha, R.id.linha_texto,
                 new String[]{"primeira linha","segunda linha", "terceira linha", "quarta linha",
-                             "quinta linha"});
+                             "quinta linha", "sexta-linha"});
 
         fListView.setAdapter(arrayAdapter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
