@@ -1,7 +1,11 @@
 package com.example.edson.lembretes;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -22,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -70,10 +75,10 @@ public class LembreteActivity extends AppCompatActivity {
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                        int nId = getIdFromPosition(masterListPosition);
+                        final Lembrete lembrete = fDbAdapter.fetchLembreteById(nId);
                         //edita o lembrete
                         if (position == 0) {
-                            int nId = getIdFromPosition(masterListPosition);
-                            Lembrete lembrete = fDbAdapter.fetchLembreteById(nId);
                             fireCustomDialog(lembrete);
                             Toast.makeText(LembreteActivity.this, "editar posicao " + position, Toast.LENGTH_SHORT).show();
                             //deleta o lembrete
@@ -83,8 +88,8 @@ public class LembreteActivity extends AppCompatActivity {
                             fCursorAdapter.changeCursor(fDbAdapter.fetchAllLembretes());
                         } else {
                             Date hoje = new Date();
-                            new TimePickerDialog(LembreteActivity.this, null, hoje.getHours(), hoje.getMinutes(), false
-                            ).show();
+                            new TimePickerDialog(LembreteActivity.this,null,hoje.getHours(),hoje.getMinutes(),false).show();
+
                         }
                         dialog.dismiss();
                     }
@@ -130,6 +135,15 @@ public class LembreteActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void lembreteProgramado(long time, String content) {
+        AlarmManager alarmeManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, LembreteAlarmReceiver.class);
+        alarmIntent.putExtra(LembreteAlarmReceiver.LEMBRETE_TEXT, content);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, alarmIntent,0);
+        alarmeManager.set(AlarmManager.RTC_WAKEUP, time, broadcast);
+    }
+
     private int getIdFromPosition(int nc){
         return (int)fCursorAdapter.getItemId(nc);
     }
