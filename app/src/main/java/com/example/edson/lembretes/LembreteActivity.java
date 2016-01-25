@@ -1,6 +1,7 @@
 package com.example.edson.lembretes;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
 
 public class LembreteActivity extends AppCompatActivity {
@@ -49,13 +51,16 @@ public class LembreteActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        /**
+         * mostra a caixa de dialogo quando um item na lista é clicado
+         */
         fListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int masterListPosition, long id){
                 //Toast.makeText(MainActivity.this, "clicked" + position, Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(LembreteActivity.this);
                 ListView modeListView = new ListView(LembreteActivity.this);
-                String[] modes = new String[]{"Edit Lembrete", "Delete Lembrete"};
+                String[] modes = new String[]{"Edit Lembrete", "Delete Lembrete", "Agenda o lembrete"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<String>(LembreteActivity.this,
                         android.R.layout.simple_list_item_1,android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
@@ -65,17 +70,21 @@ public class LembreteActivity extends AppCompatActivity {
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                        //edit lembrete
+                        //edita o lembrete
                         if (position == 0) {
                             int nId = getIdFromPosition(masterListPosition);
                             Lembrete lembrete = fDbAdapter.fetchLembreteById(nId);
                             fireCustomDialog(lembrete);
                             Toast.makeText(LembreteActivity.this, "editar posicao " + position, Toast.LENGTH_SHORT).show();
-                            //delete reminder
-                        } else {
-                            Toast.makeText(LembreteActivity.this,"delete " + position, Toast.LENGTH_SHORT).show();
+                            //deleta o lembrete
+                        } else if (position == 1) {
+                            Toast.makeText(LembreteActivity.this, "delete " + position, Toast.LENGTH_SHORT).show();
                             fDbAdapter.deleteLembreteById(getIdFromPosition(masterListPosition));
                             fCursorAdapter.changeCursor(fDbAdapter.fetchAllLembretes());
+                        } else {
+                            Date hoje = new Date();
+                            new TimePickerDialog(LembreteActivity.this, null, hoje.getHours(), hoje.getMinutes(), false
+                            ).show();
                         }
                         dialog.dismiss();
                     }
