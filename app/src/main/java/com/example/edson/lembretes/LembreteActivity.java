@@ -176,7 +176,7 @@ public class LembreteActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //Manipula as acoes da barra de acao Overflow Menu (pontinhos na primeira linha)
+        //Manipula as acoes da barra de acao Overflow Menu (pontinhos na primeira linha da tela)
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
