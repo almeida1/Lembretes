@@ -44,6 +44,7 @@ public class LembreteActivity extends AppCompatActivity {
                 fDbAdapter.createLembrete("prova de ingles dia 12/01", false);
                 fDbAdapter.createLembrete("teste de edicao dia 15/01", true);
                 fDbAdapter.createLembrete("teste de exclusao dia 20/01", false);
+                fDbAdapter.createLembrete("teste CODIGO CLONADO 20/01", false);
             }
         } catch (SQLException e) {
             e.printStackTrace();
